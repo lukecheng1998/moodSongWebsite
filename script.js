@@ -1,5 +1,31 @@
 const app = {};
 
+app.apiUrl = "https://api.spotify.com/v1";
+
+app.events = function(){
+    $('form').on('submit', function(e) {
+        e.preventDefault();
+        let artists = $('input[type = search]').val();
+        artists = artists.split(',');
+        let search = artists.map(artistName => app.searchArist(artistName));
+
+        $.when(...search) 
+            .then((...results) => {
+              console.log(results);
+            });
+        });
+};
+
+app.searchArtist = (artistName) => $.ajax({
+    url: `${app.apiUrl}/search`, 
+    method: 'GET', 
+    dataType: 'json', 
+    data: { 
+        q: artistName, 
+        type: 'artist'
+    }
+}); 
+
 app.getArists = (artist) => $.ajax({
 	url: 'https://api.spotify.com/v1/search',
 	method: 'GET',
@@ -84,5 +110,9 @@ function getRandomTracks(num, tracks) {
 	}
 	return randomResults;
 }
+
+app.init = function() {
+    app.events();
+};
 
 $(app.init);
