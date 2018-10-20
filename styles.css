@@ -11,7 +11,7 @@ iframe {
 
 .main-container {
 	min-height: 100vh;
-	background: linear-gradient(75deg, rgba(119, 205, 155, 0.82), rgba(69, 24, 115, 0.53));
+	background: linear-gradient(75deg, rgba(119, 205, 155, 0.82),black);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -38,7 +38,7 @@ section,
 }
 
 .form p {
-	color: grey;
+	color: black;
 	font-size: 12px;
 }
 
