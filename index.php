@@ -1,1 +1,1 @@
-<?php header( 'Location: /index.html' ) ;  ?>
+<?php header( 'Location: /authorization_code/public/index.html' ) ;  ?>
