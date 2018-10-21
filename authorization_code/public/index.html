@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Spotify Mood Song</title>
+    <title>Your Spotify Information</title>
     <link rel="stylesheet" href="styles.css">
     
     <style type="text/css">
@@ -72,29 +72,65 @@
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
+      <h1 style="text-align:center;">Hello {{display_name}}!</h1>
       <div class="media">
         <div class="pull-left">
           <img class="media-object" width="150" src="{{images.0.url}}" />
         </div>
         <div class="media-body">
           <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+            <form>
+              <input type= "button" class = "form green" value="Visit your Spotify!" onclick= "window.location.href= '{{external_urls.spotify}}'" />
+            </form>
+            <!-- <dt style="text-align:center;">Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd> -->
           </dl>
         </div>
       </div>
+      <h2 style="text-align:center;"> What are you in the mood for today?</h2>
+    <h4>
+      <fieldset>
+          <legend>What genre would you like?</legend>
+          <input type="radio" name="action" id="track" value="rock"/><label for="music">rock</label><br/>
+          <input type="radio" name="action" id="event" value="pop" /><label for="music">pop</label><br/>
+          <input type="radio" name="action" id="message" value="classical"/><label for="music">classical</label><br/>
+      </fieldset>
+    </h4>
+
+    <h4>
+      <fieldset>
+          <legend>How are you feeling?</legend>
+          <input type="radio" name="action1" id="track" value="happy"/><label for="mood">happy</label><br/>
+          <input type="radio" name="action1" id="event" value="sad" /><label for="mood">sad</label><br/>
+          <input type="radio" name="action1" id="message" value="angry"/><label for="mood">angry</label><br/>
+      </fieldset>
+    </h4>
+
+    <h4>
+        <fieldset>
+            <legend>How energetic are you?</legend>
+            <input type="radio" name="action2" id="track" value="track"/><label for="track">High</label><br/>
+            <input type="radio" name="action2" id="event" value="event" /><label for="event">Somewhat</label><br/>
+            <input type="radio" name="action2" id="message" value="message"/><label for="message">Low</label><br/>
+        </fieldset>
+      </h4>
+
+      <dl class="dl-horizontal">
+          <form>
+            <input type= "button" class = "form blue" value="Submit!" onclick= "window.location.href= '{{external_urls.spotify}}'" />
+          </form>
+          <!-- <dt style="text-align:center;">Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd> -->
+        </dl>
+      
     </script>
 
     <script id="oauth-template" type="text/x-handlebars-template">
+            
     </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
       (function() {
-
         /**
          * Obtains parameters from the hash of the URL
          * @return Object
@@ -108,21 +144,16 @@
           }
           return hashParams;
         }
-
         var userProfileSource = document.getElementById('user-profile-template').innerHTML,
             userProfileTemplate = Handlebars.compile(userProfileSource),
             userProfilePlaceholder = document.getElementById('user-profile');
-
         var oauthSource = document.getElementById('oauth-template').innerHTML,
             oauthTemplate = Handlebars.compile(oauthSource),
             oauthPlaceholder = document.getElementById('oauth');
-
         var params = getHashParams();
-
         var access_token = params.access_token,
             refresh_token = params.refresh_token,
             error = params.error;
-
         if (error) {
           alert('There was an error during the authentication');
         } else {
@@ -132,7 +163,6 @@
               access_token: access_token,
               refresh_token: refresh_token
             });
-
             $.ajax({
                 url: 'https://api.spotify.com/v1/me',
                 headers: {
@@ -140,7 +170,6 @@
                 },
                 success: function(response) {
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
                   $('#login').hide();
                   $('#loggedin').show();
                 }
@@ -150,7 +179,6 @@
               $('#login').show();
               $('#loggedin').hide();
           }
-
           document.getElementById('obtain-new-token').addEventListener('click', function() {
             $.ajax({
               url: '/refresh_token',
@@ -170,4 +198,3 @@
     </script>
   </body>
 </html>
-
